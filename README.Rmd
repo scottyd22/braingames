@@ -5,7 +5,7 @@ output: github_document
 
 ```{r, echo=FALSE}
 htmltools::img(src = knitr::image_uri("./images/braingames hex.png"), 
-               alt = 'logo', 
+               alt = 'logo',
                style = 'position:absolute; top:0; right:0; padding:10px; height: 112.5px; width: 100px;')
 ```
 
