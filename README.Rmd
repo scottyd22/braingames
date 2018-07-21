@@ -3,11 +3,7 @@ title: "braingames"
 output: github_document
 ---
 
-```{r, echo=FALSE}
-htmltools::img(src = knitr::image_uri("./images/braingames_hex.png"), 
-               alt = 'logo',
-               style = 'position:absolute; top:0; right:0; padding:10px; height: 112.5px; width: 100px;')
-```
+![hexagon sticker image](./images/braingames_hex.png)
 
 ```{r setup, include=FALSE}
 library(braingames)
@@ -32,7 +28,7 @@ devtools::install_github('scottyd22/braingames')
 
 Three challenges are currently available for the precise moment procrastination strikes.  The first, `concentration`, is a nod to the card game I loved to play as a kid.  The next two, `mathsquare` and `mathtrianlge`, are challenges I presented to students back when I was a math teacher. 
 
-![](./images/concentration_mathsquare_mathtriangle.PNG)
+![Screenshots of each current challenge](./images/concentration_mathsquare_mathtriangle.PNG)
 
 ## How to Use
 
