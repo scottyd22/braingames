@@ -1,0 +1,9 @@
+"0","library(braingames)"
+"2","Warning message:
+"
+"2","In dir.create(tempPath, recursive = TRUE) :"
+"2","
+ "
+"2"," cannot create dir 'D:\', reason 'Permission denied'
+"
+"0","knitr::opts_chunk$set(echo = TRUE)"
