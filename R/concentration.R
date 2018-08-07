@@ -1,5 +1,5 @@
 #' concentration
-#' 
+#'
 #' Click on pairs of cards until all matches are found.
 #' @param level  An integer (1, 2, or 3) denoting the difficutly of the board. Defaults to 1 (easiest).
 #' @keywords concentration
@@ -8,23 +8,23 @@
 #' @importFrom shinyjs useShinyjs disable enable
 #' @import rstudioapi
 #' @export concentration
-#' @examples 
+#' @examples
 #' concentration(2)
 
 concentration <- function(level = 1) {
-  
+
   if(!(level %in% c(1, 2, 3))) {
-    
+
     stop(paste0("Only three levels exist. Please choose level 1, 2, or 3."))
-    
+
   } else {
-    
+
     # Global ----
     # Level
     n <- 2 * (level + 1)
-    
+
     # Icon selection
-    icons <- c('android', 'ambulance', 'apple', 'asterisk', 
+    icons <- c('android', 'ambulance', 'apple', 'asterisk',
                'bath', 'bed', 'bell', 'birthday-cake',
                'calculator', 'camera', 'car', 'check', 'child', 'coffee', 'credit-card', 'cube',
                'download',
@@ -34,65 +34,65 @@ concentration <- function(level = 1) {
                'heart', 'home', 'hourglass',
                'id-card', 'image',
                'key',
-               'laptop', 'leaf', 'link', 'lock', 
+               'laptop', 'leaf', 'link', 'lock',
                'magnet', 'male', 'map-marker', 'microphone', 'mobile', 'money', 'mouse-pointer', 'music',
-               'outdent', 
+               'outdent',
                'paperclip', 'pause', 'paste', 'pencil', 'percent', 'phone', 'plane', 'play', 'plug', 'plus', 'power-off',
                'quote-right',
                'recycle', 'registered', 'rocket', 'rss',
-               'save', 'search', 'share', 'shopping-cart', 'shower', 'signal', 'sitemap', 'sort', 'star', 'stop-circle', 'subway', 
+               'save', 'search', 'share', 'shopping-cart', 'shower', 'signal', 'sitemap', 'sort', 'star', 'stop-circle', 'subway',
                'tablet', 'tag', 'taxi', 'thumbs-up', 'toggle-off', 'train', 'truck', 'tv',
                'undo', 'university', 'unlock', 'upload', 'user', 'users',
                'volume-up', 'volume-down',
                'wheelchair', 'wifi', 'wrench',
                # Brands
                'windows', 'stack-overflow', 'amazon', 'github', 'google', 'twitter', 'facebook-square', 'linkedin-square')
-    
+
     # Scramble icons
     icons1 <- sample(icons, n^2/2, replace = F)
     icons2 <- sample(icons1, n^2/2, replace = F)
     icons.list <- sample(c(icons1, icons2), replace = F); rm(icons1, icons2)
-    
+
     shiny::runApp(shiny::shinyApp(
-      
+
       # UI
       ui = shiny::fluidPage(
-        tags$div(
-          tags$style(HTML("
-                          
+        shiny::tags$div(
+          shiny::tags$style(HTML("
+
                           .shiny-bound-output {
                           display: inline-block;
                           }
-                          
+
                           input:disabled {
                           background: #333333;
                           }
-                          
+
                           #grid .shiny-bound-output:nth-child(1) .shiny-bound-input {
                           margin-left: 1cm;
                           }
-                          
+
                           "))
           ),
-        
+
         title = 'Concentration',
         shinyjs::useShinyjs(),
-        div(shiny::uiOutput('title'), style = 'margin-left: 0.25cm; font-size: 250%;'),
+        shiny::tags$div(shiny::uiOutput('title'), style = 'margin-left: 0.25cm; font-size: 250%;'),
         shiny::uiOutput('grid'),
-        br(),
-        br(),
+        shiny::tags$br(),
+        shiny::tags$br(),
         shiny::fluidRow(div(shiny::uiOutput('message'), style = 'margin-left: 0.5cm; font-family: Arial Black')),
-        br(),
-        br()
+        shiny::tags$br(),
+        shiny::tags$br()
           ),
-      
+
       # Server
       server = function(input, output, session) {
-        
+
         # Matches/Selected ----
         rx.matches <- shiny::reactiveValues(d = NULL)
         rx.selected <- shiny::reactiveValues(d = NULL)
-        
+
         # Rx Clicks ----
         rx.input1 <- shiny::reactiveValues(d = 0)
         rx.input2 <- shiny::reactiveValues(d = 0)
@@ -110,7 +110,7 @@ concentration <- function(level = 1) {
         rx.input14 <- shiny::reactiveValues(d = 0)
         rx.input15 <- shiny::reactiveValues(d = 0)
         rx.input16 <- shiny::reactiveValues(d = 0)
-        
+
         if(n > 4) {
           rx.input17 <- shiny::reactiveValues(d = 0)
           rx.input18 <- shiny::reactiveValues(d = 0)
@@ -133,7 +133,7 @@ concentration <- function(level = 1) {
           rx.input35 <- shiny::reactiveValues(d = 0)
           rx.input36 <- shiny::reactiveValues(d = 0)
         }
-        
+
         if(n > 6) {
           rx.input37 <- shiny::reactiveValues(d = 0)
           rx.input38 <- shiny::reactiveValues(d = 0)
@@ -164,7 +164,7 @@ concentration <- function(level = 1) {
           rx.input63 <- shiny::reactiveValues(d = 0)
           rx.input64 <- shiny::reactiveValues(d = 0)
         }
-        
+
         # Rx Background Colors ----
         rx.button1 <- shiny::reactiveValues(d = 'background-color: #333333;')
         rx.button2 <- shiny::reactiveValues(d = 'background-color: #333333;')
@@ -182,7 +182,7 @@ concentration <- function(level = 1) {
         rx.button14<- shiny::reactiveValues(d = 'background-color: #333333;')
         rx.button15<- shiny::reactiveValues(d = 'background-color: #333333;')
         rx.button16<- shiny::reactiveValues(d = 'background-color: #333333;')
-        
+
         if(n > 4) {
           rx.button17 <- shiny::reactiveValues(d = 'background-color: #333333;')
           rx.button18 <- shiny::reactiveValues(d = 'background-color: #333333;')
@@ -205,7 +205,7 @@ concentration <- function(level = 1) {
           rx.button35 <- shiny::reactiveValues(d = 'background-color: #333333;')
           rx.button36 <- shiny::reactiveValues(d = 'background-color: #333333;')
         }
-        
+
         if(n > 6) {
           rx.button37 <- shiny::reactiveValues(d = 'background-color: #333333;')
           rx.button38 <- shiny::reactiveValues(d = 'background-color: #333333;')
@@ -236,7 +236,7 @@ concentration <- function(level = 1) {
           rx.button63 <- shiny::reactiveValues(d = 'background-color: #333333;')
           rx.button64 <- shiny::reactiveValues(d = 'background-color: #333333;')
         }
-        
+
         # Buttons
         output$button1 <- shiny::renderUI({shiny::actionButton('val1', NULL, icon = icon(icons.list[1], 'fa-3x'), width = '70px', style = rx.button1$d)})
         output$button2 <- shiny::renderUI({shiny::actionButton('val2', NULL, icon = icon(icons.list[2], 'fa-3x'), width = '70px', style = rx.button2$d)})
@@ -254,7 +254,7 @@ concentration <- function(level = 1) {
         output$button14 <- shiny::renderUI({shiny::actionButton('val14', NULL, icon = icon(icons.list[14], 'fa-3x'), width = '70px', style = rx.button14$d)})
         output$button15 <- shiny::renderUI({shiny::actionButton('val15', NULL, icon = icon(icons.list[15], 'fa-3x'), width = '70px', style = rx.button15$d)})
         output$button16 <- shiny::renderUI({shiny::actionButton('val16', NULL, icon = icon(icons.list[16], 'fa-3x'), width = '70px', style = rx.button16$d)})
-        
+
         if(n > 4) {
           output$button17 <- shiny::renderUI({shiny::actionButton('val17', NULL, icon = icon(icons.list[17], 'fa-3x'), width = '70px', style = rx.button17$d)})
           output$button18 <- shiny::renderUI({shiny::actionButton('val18', NULL, icon = icon(icons.list[18], 'fa-3x'), width = '70px', style = rx.button18$d)})
@@ -277,7 +277,7 @@ concentration <- function(level = 1) {
           output$button35 <- shiny::renderUI({shiny::actionButton('val35', NULL, icon = icon(icons.list[35], 'fa-3x'), width = '70px', style = rx.button35$d)})
           output$button36 <- shiny::renderUI({shiny::actionButton('val36', NULL, icon = icon(icons.list[36], 'fa-3x'), width = '70px', style = rx.button36$d)})
         }
-        
+
         if(n > 6) {
           output$button37 <- shiny::renderUI({shiny::actionButton('val37', NULL, icon = icon(icons.list[37], 'fa-3x'), width = '70px', style = rx.button37$d)})
           output$button38 <- shiny::renderUI({shiny::actionButton('val38', NULL, icon = icon(icons.list[38], 'fa-3x'), width = '70px', style = rx.button38$d)})
@@ -308,10 +308,10 @@ concentration <- function(level = 1) {
           output$button63 <- shiny::renderUI({shiny::actionButton('val63', NULL, icon = icon(icons.list[63], 'fa-3x'), width = '70px', style = rx.button63$d)})
           output$button64 <- shiny::renderUI({shiny::actionButton('val64', NULL, icon = icon(icons.list[64], 'fa-3x'), width = '70px', style = rx.button64$d)})
         }
-        
+
         # Events
         shiny::observeEvent(c(rx.selected$d, rx.matches$d), {
-          
+
           if('input$val1' %in% c(rx.selected$d, rx.matches$d)) {rx.button1$d <- 'background-color: #FFFFFF;'} else {rx.button1$d <- 'background-color:#333333;'}
           if('input$val2' %in% c(rx.selected$d, rx.matches$d)) {rx.button2$d <- 'background-color: #FFFFFF;'} else {rx.button2$d <- 'background-color:#333333;'}
           if('input$val3' %in% c(rx.selected$d, rx.matches$d)) {rx.button3$d <- 'background-color: #FFFFFF;'} else {rx.button3$d <- 'background-color:#333333;'}
@@ -328,7 +328,7 @@ concentration <- function(level = 1) {
           if('input$val14' %in% c(rx.selected$d, rx.matches$d)) {rx.button14$d <- 'background-color: #FFFFFF;'} else {rx.button14$d <- 'background-color:#333333;'}
           if('input$val15' %in% c(rx.selected$d, rx.matches$d)) {rx.button15$d <- 'background-color: #FFFFFF;'} else {rx.button15$d <- 'background-color:#333333;'}
           if('input$val16' %in% c(rx.selected$d, rx.matches$d)) {rx.button16$d <- 'background-color: #FFFFFF;'} else {rx.button16$d <- 'background-color:#333333;'}
-          
+
           if(n > 4) {
             if('input$val17' %in% c(rx.selected$d, rx.matches$d)) {rx.button17$d <- 'background-color: #FFFFFF;'} else {rx.button17$d <- 'background-color:#333333;'}
             if('input$val18' %in% c(rx.selected$d, rx.matches$d)) {rx.button18$d <- 'background-color: #FFFFFF;'} else {rx.button18$d <- 'background-color:#333333;'}
@@ -351,7 +351,7 @@ concentration <- function(level = 1) {
             if('input$val35' %in% c(rx.selected$d, rx.matches$d)) {rx.button35$d <- 'background-color: #FFFFFF;'} else {rx.button35$d <- 'background-color:#333333;'}
             if('input$val36' %in% c(rx.selected$d, rx.matches$d)) {rx.button36$d <- 'background-color: #FFFFFF;'} else {rx.button36$d <- 'background-color:#333333;'}
           }
-          
+
           if(n > 6) {
             if('input$val37' %in% c(rx.selected$d, rx.matches$d)) {rx.button37$d <- 'background-color: #FFFFFF;'} else {rx.button37$d <- 'background-color:#333333;'}
             if('input$val38' %in% c(rx.selected$d, rx.matches$d)) {rx.button38$d <- 'background-color: #FFFFFF;'} else {rx.button38$d <- 'background-color:#333333;'}
@@ -382,9 +382,9 @@ concentration <- function(level = 1) {
             if('input$val63' %in% c(rx.selected$d, rx.matches$d)) {rx.button63$d <- 'background-color: #FFFFFF;'} else {rx.button63$d <- 'background-color:#333333;'}
             if('input$val64' %in% c(rx.selected$d, rx.matches$d)) {rx.button64$d <- 'background-color: #FFFFFF;'} else {rx.button64$d <- 'background-color:#333333;'}
           }
-          
+
         }, ignoreNULL = T)
-        
+
         # Track clicks
         shiny::observeEvent(input$val1, {rx.input1$d <- rx.input1$d + 1})
         shiny::observeEvent(input$val2, {rx.input2$d <- rx.input2$d + 1})
@@ -402,7 +402,7 @@ concentration <- function(level = 1) {
         shiny::observeEvent(input$val14, {rx.input14$d <- rx.input14$d + 1})
         shiny::observeEvent(input$val15, {rx.input15$d <- rx.input15$d + 1})
         shiny::observeEvent(input$val16, {rx.input16$d <- rx.input16$d + 1})
-        
+
         if(n > 4) {
           shiny::observeEvent(input$val17, {rx.input17$d <- rx.input17$d + 1})
           shiny::observeEvent(input$val18, {rx.input18$d <- rx.input18$d + 1})
@@ -425,7 +425,7 @@ concentration <- function(level = 1) {
           shiny::observeEvent(input$val35, {rx.input35$d <- rx.input35$d + 1})
           shiny::observeEvent(input$val36, {rx.input36$d <- rx.input36$d + 1})
         }
-        
+
         if(n > 6) {
           shiny::observeEvent(input$val37, {rx.input37$d <- rx.input37$d + 1})
           shiny::observeEvent(input$val38, {rx.input38$d <- rx.input38$d + 1})
@@ -456,88 +456,88 @@ concentration <- function(level = 1) {
           shiny::observeEvent(input$val63, {rx.input63$d <- rx.input63$d + 1})
           shiny::observeEvent(input$val64, {rx.input64$d <- rx.input64$d + 1})
         }
-        
+
         # Reset selected after no match
         shiny::observeEvent(rx.selected$d, {
           f <- function(){
             a <- quote(paste0('rx.input', substr(rx.selected$d[1], 10, nchar(rx.selected$d[1])),
                               '$d <- rx.input', substr(rx.selected$d[1], 10, nchar(rx.selected$d[1])), '$d + 1'))
-            
+
             b <- quote(paste0('rx.input', substr(rx.selected$d[2], 10, nchar(rx.selected$d[2])),
                               '$d <- rx.input', substr(rx.selected$d[2], 10, nchar(rx.selected$d[2])), '$d + 1'))
-            
+
             eval(parse(text = eval(a)))
             eval(parse(text = eval(b)))
-            
-            shinyjs::enable('val1'); shinyjs::enable('val2'); shinyjs::enable('val3'); shinyjs::enable('val4'); 
-            shinyjs::enable('val5'); shinyjs::enable('val6'); shinyjs::enable('val7'); shinyjs::enable('val8'); 
-            shinyjs::enable('val9'); shinyjs::enable('val10'); shinyjs::enable('val11'); shinyjs::enable('val12'); 
+
+            shinyjs::enable('val1'); shinyjs::enable('val2'); shinyjs::enable('val3'); shinyjs::enable('val4');
+            shinyjs::enable('val5'); shinyjs::enable('val6'); shinyjs::enable('val7'); shinyjs::enable('val8');
+            shinyjs::enable('val9'); shinyjs::enable('val10'); shinyjs::enable('val11'); shinyjs::enable('val12');
             shinyjs::enable('val13'); shinyjs::enable('val14'); shinyjs::enable('val15'); shinyjs::enable('val16')
-            
+
             if(n > 4) {
-              shinyjs::enable('val17'); shinyjs::enable('val18'); shinyjs::enable('val19'); shinyjs::enable('val20'); 
-              shinyjs::enable('val21'); shinyjs::enable('val22'); shinyjs::enable('val23'); shinyjs::enable('val24'); 
-              shinyjs::enable('val25'); shinyjs::enable('val26'); shinyjs::enable('val27'); shinyjs::enable('val28'); 
+              shinyjs::enable('val17'); shinyjs::enable('val18'); shinyjs::enable('val19'); shinyjs::enable('val20');
+              shinyjs::enable('val21'); shinyjs::enable('val22'); shinyjs::enable('val23'); shinyjs::enable('val24');
+              shinyjs::enable('val25'); shinyjs::enable('val26'); shinyjs::enable('val27'); shinyjs::enable('val28');
               shinyjs::enable('val29'); shinyjs::enable('val30'); shinyjs::enable('val31'); shinyjs::enable('val32');
               shinyjs::enable('val33'); shinyjs::enable('val34'); shinyjs::enable('val35'); shinyjs::enable('val36')
             }
-            
+
             if(n > 6) {
-              shinyjs::enable('val37'); shinyjs::enable('val38'); shinyjs::enable('val39'); shinyjs::enable('val40'); 
-              shinyjs::enable('val41'); shinyjs::enable('val42'); shinyjs::enable('val43'); shinyjs::enable('val44'); 
-              shinyjs::enable('val45'); shinyjs::enable('val46'); shinyjs::enable('val47'); shinyjs::enable('val48'); 
+              shinyjs::enable('val37'); shinyjs::enable('val38'); shinyjs::enable('val39'); shinyjs::enable('val40');
+              shinyjs::enable('val41'); shinyjs::enable('val42'); shinyjs::enable('val43'); shinyjs::enable('val44');
+              shinyjs::enable('val45'); shinyjs::enable('val46'); shinyjs::enable('val47'); shinyjs::enable('val48');
               shinyjs::enable('val49'); shinyjs::enable('val50'); shinyjs::enable('val51'); shinyjs::enable('val52');
               shinyjs::enable('val53'); shinyjs::enable('val54'); shinyjs::enable('val55'); shinyjs::enable('val56');
-              shinyjs::enable('val57'); shinyjs::enable('val58'); shinyjs::enable('val59'); shinyjs::enable('val60'); 
+              shinyjs::enable('val57'); shinyjs::enable('val58'); shinyjs::enable('val59'); shinyjs::enable('val60');
               shinyjs::enable('val61'); shinyjs::enable('val62'); shinyjs::enable('val63'); shinyjs::enable('val64')
             }
           }
-          
+
           if(length(rx.selected$d) == 2) {
-            shinyjs::disable('val1'); shinyjs::disable('val2'); shinyjs::disable('val3'); shinyjs::disable('val4'); 
-            shinyjs::disable('val5'); shinyjs::disable('val6'); shinyjs::disable('val7'); shinyjs::disable('val8'); 
-            shinyjs::disable('val9'); shinyjs::disable('val10'); shinyjs::disable('val11'); shinyjs::disable('val12'); 
+            shinyjs::disable('val1'); shinyjs::disable('val2'); shinyjs::disable('val3'); shinyjs::disable('val4');
+            shinyjs::disable('val5'); shinyjs::disable('val6'); shinyjs::disable('val7'); shinyjs::disable('val8');
+            shinyjs::disable('val9'); shinyjs::disable('val10'); shinyjs::disable('val11'); shinyjs::disable('val12');
             shinyjs::disable('val13'); shinyjs::disable('val14'); shinyjs::disable('val15'); shinyjs::disable('val16')
-            
+
             if(n > 4) {
-              shinyjs::disable('val17'); shinyjs::disable('val18'); shinyjs::disable('val19'); shinyjs::disable('val20'); 
-              shinyjs::disable('val21'); shinyjs::disable('val22'); shinyjs::disable('val23'); shinyjs::disable('val24'); 
-              shinyjs::disable('val25'); shinyjs::disable('val26'); shinyjs::disable('val27'); shinyjs::disable('val28'); 
+              shinyjs::disable('val17'); shinyjs::disable('val18'); shinyjs::disable('val19'); shinyjs::disable('val20');
+              shinyjs::disable('val21'); shinyjs::disable('val22'); shinyjs::disable('val23'); shinyjs::disable('val24');
+              shinyjs::disable('val25'); shinyjs::disable('val26'); shinyjs::disable('val27'); shinyjs::disable('val28');
               shinyjs::disable('val29'); shinyjs::disable('val30'); shinyjs::disable('val31'); shinyjs::disable('val32');
               shinyjs::disable('val33'); shinyjs::disable('val34'); shinyjs::disable('val35'); shinyjs::disable('val36')
             }
-            
+
             if(n > 6) {
-              shinyjs::disable('val37'); shinyjs::disable('val38'); shinyjs::disable('val39'); shinyjs::disable('val40'); 
-              shinyjs::disable('val41'); shinyjs::disable('val42'); shinyjs::disable('val43'); shinyjs::disable('val44'); 
-              shinyjs::disable('val45'); shinyjs::disable('val46'); shinyjs::disable('val47'); shinyjs::disable('val48'); 
+              shinyjs::disable('val37'); shinyjs::disable('val38'); shinyjs::disable('val39'); shinyjs::disable('val40');
+              shinyjs::disable('val41'); shinyjs::disable('val42'); shinyjs::disable('val43'); shinyjs::disable('val44');
+              shinyjs::disable('val45'); shinyjs::disable('val46'); shinyjs::disable('val47'); shinyjs::disable('val48');
               shinyjs::disable('val49'); shinyjs::disable('val50'); shinyjs::disable('val51'); shinyjs::disable('val52');
               shinyjs::disable('val53'); shinyjs::disable('val54'); shinyjs::disable('val55'); shinyjs::disable('val56');
-              shinyjs::disable('val57'); shinyjs::disable('val58'); shinyjs::disable('val59'); shinyjs::disable('val60'); 
+              shinyjs::disable('val57'); shinyjs::disable('val58'); shinyjs::disable('val59'); shinyjs::disable('val60');
               shinyjs::disable('val61'); shinyjs::disable('val62'); shinyjs::disable('val63'); shinyjs::disable('val64')
             }
             shinyjs::delay(1000, f())
           }
         })
-        
+
         # Input group ----
         input.group <- shiny::reactive({
           unlist(lapply(1:(n^2), function(i) {paste0('input$val', i)}))
         })
-        
-        
+
+
         # Trigger group ----
         trigger.group <- shiny::reactive({
           trigger <- c(rx.input1$d, rx.input2$d, rx.input3$d, rx.input4$d, rx.input5$d, rx.input6$d, rx.input7$d, rx.input8$d,
                        rx.input9$d, rx.input10$d, rx.input11$d, rx.input12$d, rx.input13$d, rx.input14$d, rx.input15$d, rx.input16$d)
-          
+
           if(n > 4) {
             trigger <- c(trigger,
                          rx.input17$d, rx.input18$d, rx.input19$d, rx.input20$d, rx.input21$d, rx.input22$d, rx.input23$d, rx.input24$d,
                          rx.input25$d, rx.input26$d, rx.input27$d, rx.input28$d, rx.input29$d, rx.input30$d, rx.input31$d, rx.input32$d,
                          rx.input33$d, rx.input34$d, rx.input35$d, rx.input36$d)
           }
-          
+
           if(n > 6) {
             trigger <- c(trigger,
                          rx.input37$d, rx.input38$d, rx.input39$d, rx.input40$d, rx.input41$d, rx.input42$d, rx.input43$d, rx.input44$d,
@@ -547,7 +547,7 @@ concentration <- function(level = 1) {
           }
           trigger
         })
-        
+
         # Icons group ----
         icons.group <- shiny::reactive({
           ig <- c(icons.list[1], icons.list[2], icons.list[3], icons.list[4], icons.list[5], icons.list[6], icons.list[7], icons.list[8],
@@ -567,29 +567,29 @@ concentration <- function(level = 1) {
           }
           ig
         })
-        
+
         # Current status of all buttons ----
         shiny::observeEvent(trigger.group(), {
-          
+
           df <- data.frame(Input = input.group(),
                            Value = trigger.group() %% 2,
                            Pic = icons.group(),
                            stringsAsFactors = F)
-          
+
           matches <- dplyr::group_by(df, Pic)
           matches <- dplyr::mutate(matches, Total = sum(Value))
           matches <- dplyr::ungroup(matches)
           matches <- dplyr::filter(matches, Total == 2)
           matches <- dplyr::pull(matches, Input)
           rx.matches$d <- matches
-          
+
           selected <- dplyr::filter(df, Value == 1)
           if(length(matches) > 0) {selected <- dplyr::filter(selected, !(Input %in% rx.matches$d))}
           selected <- dplyr::pull(selected, Input)
           rx.selected$d <- selected
-          
+
         }, ignoreNULL = T)
-        
+
         # UI Grid ----
         output$grid <- shiny::renderUI({
           if(n == 4) {
@@ -601,43 +601,43 @@ concentration <- function(level = 1) {
             )
           } else if(n == 6) {
             shiny::fluidRow(
-              shiny::fluidRow(shiny::uiOutput('button1'), shiny::uiOutput('button2'), shiny::uiOutput('button3'), 
+              shiny::fluidRow(shiny::uiOutput('button1'), shiny::uiOutput('button2'), shiny::uiOutput('button3'),
                               shiny::uiOutput('button4'), shiny::uiOutput('button5'), shiny::uiOutput('button6')),
-              shiny::fluidRow(shiny::uiOutput('button7'), shiny::uiOutput('button8'), shiny::uiOutput('button9'), 
+              shiny::fluidRow(shiny::uiOutput('button7'), shiny::uiOutput('button8'), shiny::uiOutput('button9'),
                               shiny::uiOutput('button10'), shiny::uiOutput('button11'), shiny::uiOutput('button12')),
-              shiny::fluidRow(shiny::uiOutput('button13'), shiny::uiOutput('button14'), shiny::uiOutput('button15'), 
+              shiny::fluidRow(shiny::uiOutput('button13'), shiny::uiOutput('button14'), shiny::uiOutput('button15'),
                               shiny::uiOutput('button16'), shiny::uiOutput('button17'), shiny::uiOutput('button18')),
-              shiny::fluidRow(shiny::uiOutput('button19'), shiny::uiOutput('button20'), shiny::uiOutput('button21'), 
+              shiny::fluidRow(shiny::uiOutput('button19'), shiny::uiOutput('button20'), shiny::uiOutput('button21'),
                               shiny::uiOutput('button22'), shiny::uiOutput('button23'), shiny::uiOutput('button24')),
-              shiny::fluidRow(shiny::uiOutput('button25'), shiny::uiOutput('button26'), shiny::uiOutput('button27'), 
+              shiny::fluidRow(shiny::uiOutput('button25'), shiny::uiOutput('button26'), shiny::uiOutput('button27'),
                               shiny::uiOutput('button28'), shiny::uiOutput('button29'), shiny::uiOutput('button30')),
-              shiny::fluidRow(shiny::uiOutput('button31'), shiny::uiOutput('button32'), shiny::uiOutput('button33'), 
+              shiny::fluidRow(shiny::uiOutput('button31'), shiny::uiOutput('button32'), shiny::uiOutput('button33'),
                               shiny::uiOutput('button34'), shiny::uiOutput('button35'), shiny::uiOutput('button36'))
             )
           } else if(n == 8) {
             shiny::fluidRow(
-              shiny::fluidRow(shiny::uiOutput('button1'), shiny::uiOutput('button2'), shiny::uiOutput('button3'), shiny::uiOutput('button4'), 
+              shiny::fluidRow(shiny::uiOutput('button1'), shiny::uiOutput('button2'), shiny::uiOutput('button3'), shiny::uiOutput('button4'),
                               shiny::uiOutput('button5'), shiny::uiOutput('button6'), shiny::uiOutput('button7'), shiny::uiOutput('button8')),
-              shiny::fluidRow(shiny::uiOutput('button9'), shiny::uiOutput('button10'), shiny::uiOutput('button11'), shiny::uiOutput('button12'), 
+              shiny::fluidRow(shiny::uiOutput('button9'), shiny::uiOutput('button10'), shiny::uiOutput('button11'), shiny::uiOutput('button12'),
                               shiny::uiOutput('button13'), shiny::uiOutput('button14'), shiny::uiOutput('button15'), shiny::uiOutput('button16')),
-              shiny::fluidRow(shiny::uiOutput('button17'), shiny::uiOutput('button18'), shiny::uiOutput('button19'), shiny::uiOutput('button20'), 
+              shiny::fluidRow(shiny::uiOutput('button17'), shiny::uiOutput('button18'), shiny::uiOutput('button19'), shiny::uiOutput('button20'),
                               shiny::uiOutput('button21'), shiny::uiOutput('button22'), shiny::uiOutput('button23'), shiny::uiOutput('button24')),
-              shiny::fluidRow(shiny::uiOutput('button25'), shiny::uiOutput('button26'), shiny::uiOutput('button27'), shiny::uiOutput('button28'), 
+              shiny::fluidRow(shiny::uiOutput('button25'), shiny::uiOutput('button26'), shiny::uiOutput('button27'), shiny::uiOutput('button28'),
                               shiny::uiOutput('button29'), shiny::uiOutput('button30'), shiny::uiOutput('button31'), shiny::uiOutput('button32')),
-              shiny::fluidRow(shiny::uiOutput('button33'), shiny::uiOutput('button34'), shiny::uiOutput('button35'), shiny::uiOutput('button36'), 
+              shiny::fluidRow(shiny::uiOutput('button33'), shiny::uiOutput('button34'), shiny::uiOutput('button35'), shiny::uiOutput('button36'),
                               shiny::uiOutput('button37'), shiny::uiOutput('button38'), shiny::uiOutput('button39'), shiny::uiOutput('button40')),
-              shiny::fluidRow(shiny::uiOutput('button41'), shiny::uiOutput('button42'), shiny::uiOutput('button43'), shiny::uiOutput('button44'), 
+              shiny::fluidRow(shiny::uiOutput('button41'), shiny::uiOutput('button42'), shiny::uiOutput('button43'), shiny::uiOutput('button44'),
                               shiny::uiOutput('button45'), shiny::uiOutput('button46'), shiny::uiOutput('button47'), shiny::uiOutput('button48')),
-              shiny::fluidRow(shiny::uiOutput('button49'), shiny::uiOutput('button50'), shiny::uiOutput('button51'), shiny::uiOutput('button52'), 
+              shiny::fluidRow(shiny::uiOutput('button49'), shiny::uiOutput('button50'), shiny::uiOutput('button51'), shiny::uiOutput('button52'),
                               shiny::uiOutput('button53'), shiny::uiOutput('button54'), shiny::uiOutput('button55'), shiny::uiOutput('button56')),
-              shiny::fluidRow(shiny::uiOutput('button57'), shiny::uiOutput('button58'), shiny::uiOutput('button59'), shiny::uiOutput('button60'), 
+              shiny::fluidRow(shiny::uiOutput('button57'), shiny::uiOutput('button58'), shiny::uiOutput('button59'), shiny::uiOutput('button60'),
                               shiny::uiOutput('button61'), shiny::uiOutput('button62'), shiny::uiOutput('button63'), shiny::uiOutput('button64'))
             )
           } else {
             NULL
           }
         })
-        
+
         # Title ----
         output$title <- shiny::renderUI({
           shiny::HTML(paste0("<strong>",
@@ -648,7 +648,7 @@ concentration <- function(level = 1) {
                              "<span style = 'color: #464646;'>n</span>",
                              "</strong>"))
         })
-        
+
         # Winning Message ----
         output$message <- shiny::renderUI({
           if(length(rx.matches$d) == n^2 & n == 4) {

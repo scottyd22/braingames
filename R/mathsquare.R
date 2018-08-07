@@ -1,5 +1,5 @@
 #' mathsquare
-#' 
+#'
 #' Drag numbers into the grid until all rows, columns, and diagonals sum to the same value.  To move a value from the grid back to the starting area, drag a new number to the cell containing the number you wish to remove.  The undesirable number will be replaced and sent back to the starting area.
 #' @keywords mathsquare
 #' @import shiny
@@ -8,34 +8,34 @@
 #' @export mathsquare
 
 mathsquare <- function() {
-  
+
   shiny::runApp(shiny::shinyApp(
-    
+
     # UI ----
     ui <- shiny::fluidPage(
-                           tags$div(
-                             tags$style(HTML("
+                           shiny::tags$div(
+                             shiny::tags$style(HTML("
                                              #numbers #numbers {
                                                   font-family: Arial;
                                                   border: 1px solid #E5E8E8;
                                               }
 
                                               .ui-sortable {
-                                                  font-family: Arial; 
-                                                  border-style: solid; 
-                                                  border-color: #464646; 
+                                                  font-family: Arial;
+                                                  border-style: solid;
+                                                  border-color: #464646;
                                                   height: 40px;
                                               }
-                                                  
+
                                               #title {
                                                   font-size: 36px;
                                               }
-                                                  
+
                                               #goal span {
                                                   font-size: 16px;
                                                   color: #464646;
                                               }
-                                                  
+
                                               #message {
                                                   font-family: Arial Black;
                                                   font-style: bold;
@@ -43,34 +43,34 @@ mathsquare <- function() {
                                               }
                                              "))
                              ),
-                           
-                           title = 'Math Square', 
-                           div(shiny::uiOutput('title'), style = 'margin-left: 1.45cm;'),
-                           div(shiny::uiOutput('goal'), style = 'margin-left: 1cm;'),
+
+                           title = 'Math Square',
+                           shiny::tags$div(shiny::uiOutput('title'), style = 'margin-left: 1.45cm;'),
+                           shiny::tags$div(shiny::uiOutput('goal'), style = 'margin-left: 1cm;'),
                            shiny::fluidRow(shiny::uiOutput('numbers')),
                            shiny::fluidRow(
-                             div(shiny::uiOutput('Cell11'), style = 'display: inline-block; margin-left: 3cm'),
-                             div(shiny::uiOutput('Cell12'), style = 'display: inline-block;'),
-                             div(shiny::uiOutput('Cell13'), style = 'display: inline-block;')
+                             shiny::tags$div(shiny::uiOutput('Cell11'), style = 'display: inline-block; margin-left: 3cm'),
+                             shiny::tags$div(shiny::uiOutput('Cell12'), style = 'display: inline-block;'),
+                             shiny::tags$div(shiny::uiOutput('Cell13'), style = 'display: inline-block;')
                            ),
                            shiny::fluidRow(
-                             div(shiny::uiOutput('Cell21'), style = 'display: inline-block; margin-left: 3cm'),
-                             div(shiny::uiOutput('Cell22'), style = 'display: inline-block;'),
-                             div(shiny::uiOutput('Cell23'), style = 'display: inline-block;')
+                             shiny::tags$div(shiny::uiOutput('Cell21'), style = 'display: inline-block; margin-left: 3cm'),
+                             shiny::tags$div(shiny::uiOutput('Cell22'), style = 'display: inline-block;'),
+                             shiny::tags$div(shiny::uiOutput('Cell23'), style = 'display: inline-block;')
                            ),
                            shiny::fluidRow(
-                             div(shiny::uiOutput('Cell31'), style = 'display: inline-block; margin-left: 3cm'),
-                             div(shiny::uiOutput('Cell32'), style = 'display: inline-block;'),
-                             div(shiny::uiOutput('Cell33'), style = 'display: inline-block;')
+                             shiny::tags$div(shiny::uiOutput('Cell31'), style = 'display: inline-block; margin-left: 3cm'),
+                             shiny::tags$div(shiny::uiOutput('Cell32'), style = 'display: inline-block;'),
+                             shiny::tags$div(shiny::uiOutput('Cell33'), style = 'display: inline-block;')
                            ),
-                           br(),
-                           div(shiny::textOutput('message'), style = 'margin-left: 0.45cm;'),
-                           br()
+                           shiny::tags$br(),
+                           shiny::tags$div(shiny::textOutput('message'), style = 'margin-left: 0.45cm;'),
+                           shiny::tags$br()
     ),
-    
+
     # Server ----
     server <- function(input, output, session) {
-      
+
       # Selected numbers ----
       selected.numbers <- shiny::reactive({
         c(input$cell11_order, input$cell12_order, input$cell13_order,
@@ -78,10 +78,10 @@ mathsquare <- function() {
           input$cell31_order, input$cell32_order, input$cell33_order
         )
       })
-      
+
       # Available numbers ----
       output$numbers <- shiny::renderUI({
-        shinyjqui::orderInput(inputId = 'numbers', 
+        shinyjqui::orderInput(inputId = 'numbers',
                               as_source = T,
                               label = NULL,
                               items = c(1:9)[!(c(1:9) %in% selected.numbers())],
@@ -92,7 +92,7 @@ mathsquare <- function() {
                               style = 'margin-left: 1cm;'
         )
       })
-      
+
       # Cells ----
       # Cell11
       output$Cell11 <- shiny::renderUI({
@@ -125,7 +125,7 @@ mathsquare <- function() {
           )
         }
       })
-      
+
       # Cell12
       output$Cell12 <- shiny::renderUI({
         if(length(input[['cell12_order']]) == 0) {
@@ -157,7 +157,7 @@ mathsquare <- function() {
           )
         }
       })
-      
+
       # Cell13
       output$Cell13 <- shiny::renderUI({
         if(length(input[['cell13_order']]) == 0) {
@@ -189,7 +189,7 @@ mathsquare <- function() {
           )
         }
       })
-      
+
       # Cell21
       output$Cell21 <- shiny::renderUI({
         if(length(input[['cell21_order']]) == 0) {
@@ -221,7 +221,7 @@ mathsquare <- function() {
           )
         }
       })
-      
+
       # Cell22
       output$Cell22 <- shiny::renderUI({
         if(length(input[['cell22_order']]) == 0) {
@@ -253,7 +253,7 @@ mathsquare <- function() {
           )
         }
       })
-      
+
       # Cell23
       output$Cell23 <- shiny::renderUI({
         if(length(input[['cell23_order']]) == 0) {
@@ -285,7 +285,7 @@ mathsquare <- function() {
           )
         }
       })
-      
+
       # Cell31
       output$Cell31 <- shiny::renderUI({
         if(length(input[['cell31_order']]) == 0) {
@@ -317,7 +317,7 @@ mathsquare <- function() {
           )
         }
       })
-      
+
       # Cell32
       output$Cell32 <- shiny::renderUI({
         if(length(input[['cell32_order']]) == 0) {
@@ -349,7 +349,7 @@ mathsquare <- function() {
           )
         }
       })
-      
+
       # Cell33
       output$Cell33 <- shiny::renderUI({
         if(length(input[['cell33_order']]) == 0) {
@@ -381,73 +381,73 @@ mathsquare <- function() {
           )
         }
       })
-      
+
       # Sums ----
       r1 <- shiny::reactive({
-        sum(as.numeric(input$cell11_order), 
-            as.numeric(input$cell12_order), 
+        sum(as.numeric(input$cell11_order),
+            as.numeric(input$cell12_order),
             as.numeric(input$cell13_order)
         )
       })
-      
+
       r2 <- shiny::reactive({
-        sum(as.numeric(input$cell21_order), 
-            as.numeric(input$cell22_order), 
+        sum(as.numeric(input$cell21_order),
+            as.numeric(input$cell22_order),
             as.numeric(input$cell23_order)
         )
       })
-      
+
       r3 <- shiny::reactive({
-        sum(as.numeric(input$cell31_order), 
-            as.numeric(input$cell32_order), 
+        sum(as.numeric(input$cell31_order),
+            as.numeric(input$cell32_order),
             as.numeric(input$cell33_order)
         )
       })
-      
+
       c1 <- shiny::reactive({
-        sum(as.numeric(input$cell11_order), 
-            as.numeric(input$cell21_order), 
+        sum(as.numeric(input$cell11_order),
+            as.numeric(input$cell21_order),
             as.numeric(input$cell31_order)
         )
       })
-      
+
       c2 <- shiny::reactive({
-        sum(as.numeric(input$cell12_order), 
-            as.numeric(input$cell22_order), 
+        sum(as.numeric(input$cell12_order),
+            as.numeric(input$cell22_order),
             as.numeric(input$cell32_order)
         )
       })
-      
+
       c3 <- shiny::reactive({
-        sum(as.numeric(input$cell13_order), 
-            as.numeric(input$cell23_order), 
+        sum(as.numeric(input$cell13_order),
+            as.numeric(input$cell23_order),
             as.numeric(input$cell33_order)
         )
       })
-      
+
       d1 <- shiny::reactive({
-        sum(as.numeric(input$cell11_order), 
-            as.numeric(input$cell22_order), 
+        sum(as.numeric(input$cell11_order),
+            as.numeric(input$cell22_order),
             as.numeric(input$cell33_order)
         )
       })
-      
+
       d2 <- shiny::reactive({
-        sum(as.numeric(input$cell31_order), 
-            as.numeric(input$cell22_order), 
+        sum(as.numeric(input$cell31_order),
+            as.numeric(input$cell22_order),
             as.numeric(input$cell13_order)
         )
       })
-      
+
       # Reactive Values ----
       colors <- shiny::reactiveValues(d = 'primary')
       message <- shiny::reactiveValues(d = '')
-      
+
       # Events ----
       shiny::observeEvent(c(input$cell11_order, input$cell12_order, input$cell13_order,
                             input$cell21_order, input$cell22_order, input$cell23_order,
                             input$cell31_order, input$cell32_order, input$cell33_order, message), {
-                              
+
                               if(
                                 length(input$cell11_order) == 1 &
                                 length(input$cell12_order) == 1 &
@@ -466,10 +466,10 @@ mathsquare <- function() {
                                 c3() == d1() &
                                 d1() == d2()
                               ) {
-                                
+
                                 colors$d <- 'success'
                                 message$d <- 'Congratulations, you solver of puzzles!!'
-                                
+
                               } else if (
                                 length(input$cell11_order) == 1 &
                                 length(input$cell12_order) == 1 &
@@ -488,16 +488,16 @@ mathsquare <- function() {
                                  c3() != d1() |
                                  d1() != d2())
                               ) {
-                                
+
                                 message$d <- "Nice try, but you're not quite there yet"
                                 colors$d <- 'primary'
-                                
+
                               } else {
                                 colors$d <- 'primary'
                                 message$d <- ""
                               }
                             })
-      
+
       # Title ----
       output$title <- shiny::renderUI({
         HTML(paste0("<strong>",
@@ -505,7 +505,7 @@ mathsquare <- function() {
                     "<span style = 'color: #464646;'>square</span>",
                     "</strong>"))
       })
-      
+
       # Instuctions ----
       output$goal <- shiny::renderUI({
         shiny::HTML(paste0("<span><strong>Goal: </strong>Drag each number to one of the boxes</span>",
@@ -516,10 +516,10 @@ mathsquare <- function() {
         )
         )
       })
-      
+
       # Message ----
       output$message <- shiny::renderText({message$d})
-      
+
     }
   ), launch.browser = rstudioapi::viewer)
 }
