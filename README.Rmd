@@ -1,9 +1,8 @@
 ---
-title: "braingames"
 output: github_document
 ---
 
-![hexagon sticker image](./images/braingames_hex.png)
+# braingames <img src="images/braingames_hex.png" align="right" width="125px"/>
 
 ```{r setup, include=FALSE}
 library(braingames)
